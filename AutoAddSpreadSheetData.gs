@@ -155,12 +155,18 @@ function SetAverageAndFormulaAuto() {
     var maxCol = dataSheet.getMaxColumns();
     var maxRows = dataSheet.getMaxRows();
     var holdValue = [];
+    var holdValue2 =[];
      datesSheet.clear();
      datesSheet.appendRow(["Date","Date Converted"]);
   var datesCell1 = datesSheet.getRange("A2");
      datesCell1.setValue("=sort(UNIQUE(Data!B2:B))");
   var datesCell2 = datesSheet.getRange("B2");
-     datesCell2.setValue("=arrayformula(TEXT(A2:A7,\"yyyy-MM-dd\"))");
+  
+  var dates = datesSheet.getRange("A2:A100").getValues();    
+    var dateRow = dates.filter(isEmpty); 
+    var dateRowCounter= dateRow.length+1;
+  
+     datesCell2.setValue("=arrayformula(TEXT(A2\:A"+ dateRowCounter +",\"yyyy-MM-dd\"))");
   
       //Add List of centers and First Cells name                                  +++ CHANGE THIS AS MORE CENTERS ARE ADDED
     var Column1 = ['Jumpstart Average', 'Average', 'H1YK', 'H2YK', 'H3YK',
@@ -178,6 +184,16 @@ function SetAverageAndFormulaAuto() {
       var timesCell = dataSheet.getRange("B1");
       timesCell.setValue("=transpose(QUERY(Dates!B2:B8))");
     
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
  //   cleanSheets();
       var row = dataSheet.getRange("A2:A").getValues();
     var rowCount = row.filter(isEmpty);

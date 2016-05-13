@@ -1,0 +1,27 @@
+function createNewClassFolder(){
+   //Create new root class folder with class code 
+   //Root folder
+   var HOMEFOLDERID     = 'ID GOES HERE',                // From template
+   CLASSCODE            = "H12YJ-1A-1603",                               // From Moodle
+   rootFolder           =  DriveApp.getFolderById(HOMEFOLDERID),         // From template
+   createNewClassFolder = rootFolder.createFolder(CLASSCODE).getId(),
+   classFolder          = DriveApp.getFolderById(createNewClassFolder)
+      
+       createNewProjectFolders(classFolder);
+       Logger.log(classFolder); //Need to send ID back to Moodle for access by students.   
+}
+
+    // Add empty project folders - one for each project
+function createNewProjectFolders(classFolder){
+     //set variables 
+   var projectsToMake   = 4,//comes from template
+   projectFolderIds     = [],//is sent back to moodle for storage later. 
+   folderName           = "Project";// comes from template
+   
+   // create project folders and get their ids
+   for (var i = 1; i <= projectsToMake; i++){
+   var newProjectFolder = classFolder.createFolder(folderName + " " + i).getId(); 
+   projectFolderIds.push('\"' + newProjectFolder + '\"');
+   }
+   Logger.log(projectFolderIds); // Send IDs back to Moodle - one for each project.  
+}

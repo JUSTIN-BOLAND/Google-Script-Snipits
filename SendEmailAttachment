@@ -1,0 +1,69 @@
+//********************************
+GAS
+//********************************
+
+function doGet() {
+  return HtmlService.createHtmlOutputFromFile('index')
+      .setSandboxMode(HtmlService.SandboxMode.IFRAME);
+}
+
+function processForm(formObject) {
+  var myFile = formObject.myFile;
+
+ var FileBytes = myFile.getBytes();
+ var FileType = myFile.getContentType();
+ var FileName = myFile.getName();
+  var FileToSend = {fileName: FileName,content:FileBytes, mimeType:FileType};
+  // Logger.log(FileType);
+
+var FileBytes2 = [100, 97, 121, 32, 108, 97, 32, 110, 111, 105, 32, 100, 117, 110, 103, 32, 98, 101, 110, 32, 116, 114, 111, 110, 103];
+var FileToSend2 = {fileName: 'test222.txt',content:FileBytes2, mimeType:'text/plain'};
+  var FileToSend3 = {fileName: 'test333.txt',content:'noi dung ben trong', mimeType:'text/plain'};
+  
+   GmailApp.sendEmail('youremail@gmail.com', '6 Attachment example', '6 Please see the attached file.', {
+     attachments: [FileToSend, FileToSend2, FileToSend3],
+     name: '6 Automatic Emailer Script'
+ });
+
+return FileName;
+}
+
+//********************************************
+HTML
+//********************************************
+
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <script>
+      // Prevent forms from submitting.
+      function preventFormSubmit() {
+        var forms = document.querySelectorAll('form');
+        for (var i = 0; i < forms.length; i++) {
+          forms[i].addEventListener('submit', function(event) {
+            event.preventDefault();
+          });
+        }
+      }
+      window.addEventListener('load', preventFormSubmit);
+
+      function handleFormSubmit(formObject) {
+        google.script.run.withSuccessHandler(updateUrl).processForm(formObject);
+      }
+      function updateUrl(filename) {
+        var div = document.getElementById('output');
+        div.innerHTML = filename;
+      }
+    </script>
+  </head>
+  <body>
+    <form id="myForm" onsubmit="handleFormSubmit(this)" method="post" enctype="multipart/form-data">
+      <input name="myFile" type="file" multiple/>
+      <input type="submit" value="Submit" />
+    </form>
+    <div id="output"></div>
+ </body>
+</html>

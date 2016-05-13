@@ -1,0 +1,67 @@
+
+//*************************************************************
+// All folders are populated with content from master project data 
+//*************************************************************
+
+  var groups           =  IDs OF PARENT FOLDERS
+  var sourceFolderId    = ID OF SOURCE FOLDER
+  var rootFolder      = DriveApp.getFolderById(sourceFolderId);
+  
+function pushProjectSourceFolderToGroups() {
+   
+    for each (var groupFolder in groups){          
+    try {           
+       var rootFolderFileContent = itterateThroughFilesIn(groupFolder);
+       var rootFolderChildContents = itterateThroughRootFolder(groupFolder);
+       
+  //      Logger.log(rootFolderContents);
+    } catch (e) {
+        Logger.log(e.toString());
+    }
+    }
+}
+
+
+function itterateThroughFilesIn(groupFolder){
+    var childFolders         = rootFolder.getFolders(),
+    rootFiles                = rootFolder.getFiles();    
+    
+    while (rootFiles.hasNext()) {
+        var lookAtFiles        = rootFiles.next(),
+        getFileId              = lookAtFiles.getId(),
+        fileName               = lookAtFiles.getName(),
+        destinationGroupFolder = DriveApp.getFolderById(groupFolder);
+   
+    DriveApp.getFileById(getFileId).makeCopy(fileName, destinationGroupFolder);
+        
+  }
+}
+
+function itterateThroughRootFolder(groupFolder) {
+    var childFolders         = rootFolder.getFolders(),
+    rootFiles                = rootFolder.getFiles();  
+    var  destinationGroupFolder = DriveApp.getFolderById(groupFolder);
+    while (childFolders.hasNext()) {
+        var childFolder        = childFolders.next(),        
+        childFolderId          = childFolder.getId(),
+        childFolderName        = childFolder.getName();
+        //Make one new folder in the target group folder to match source
+        var desitinationId = destinationGroupFolder.createFolder(childFolderName).getId();
+        Logger.log(desitinationId);
+        //Get all the child files from the source folder
+        var files = childFolder.getFiles();      
+     while (files.hasNext()) {
+        //Look through each file collect it's details
+            var lookAtFiles2     = files.next(),
+            childFolderFileIds   = lookAtFiles2.getId(),
+            childFolderFileName  = lookAtFiles2.getName();
+            // Get the ID of the folder all the files will go in. 
+            var targetChildFolder   = DriveApp.getFolderById(desitinationId);
+            // Copy the all files to the destinaiton folder.
+            DriveApp.getFileById(childFolderFileIds).makeCopy(childFolderFileName, targetChildFolder);            
+        }        
+       // Recursive call for all child-folders
+        itterateThroughRootFolder(childFolder, groupFolder);
+        
+    }
+}

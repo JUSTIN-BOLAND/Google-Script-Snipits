@@ -1,0 +1,24 @@
+function copyMainPage(studentId, classCode) {
+    // Provision target 
+    var targetPortfolioSite = studentId;
+    var setTargetPageClassCode = classCode;
+    var setTargetPageTitle = "Project";
+    // Provision source      
+    var domain = "ilavietnam.edu.vn"
+    var sourcePageOnDomain = "projects-portfolio"
+    var source = SitesApp.getSite(domain, sourcePageOnDomain);
+   
+    var mainTemplate = source.getTemplates()[0].getHtmlContent();
+    var projectTemplate = source.getTemplates()[1].getHtmlContent();
+    
+    // Choose site to copy to. 
+    var target = SitesApp.getSite("ilavietnam.edu.vn", targetPortfolioSite);
+    
+    
+    
+    var classPortfolio = target.createWebPage(classCode, classCode, mainTemplate);  
+    // If an invalid template is passed, this will throw an "Invalid Argument" error.
+    for (var i = 1;i<=4; i++){  
+    classPortfolio.createWebPage(setTargetPageTitle + " - " + i, setTargetPageClassCode+i, projectTemplate);  
+    };   
+}

@@ -1,0 +1,34 @@
+function searchForStudentId(SPREADSHEET_ID, SHEET_NAME, studentId) {
+        var locatedCells = [];
+        var ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+        var searchLocation = ss.getSheetByName(SHEET_NAME).getDataRange().getValues();        
+        //Loops to find the search term. 
+            for (var j = 0, jLen = searchLocation.length; j < jLen; j++) {
+                for (var k = 0, kLen = searchLocation.length; k < kLen; k++) {
+                    var find = studentId;
+                    if (find == searchLocation[j][k]) {
+                        locatedCells.push({ 'found': (j + 1) + "," + (k + 1)});
+                    }
+                }
+            }
+         //   Logger.log(locatedCells);
+            return(locatedCells)
+        }
+
+
+function LocateStudentIdsInSource (){
+      var SPREADSHEET_ID = "ADD ID"
+      var SHEET_NAME = "Sheet1"
+      var studentId = "1234567"
+      var studentIdSourceLocation = searchForStudentId(SPREADSHEET_ID, SHEET_NAME, studentId)
+      Logger.log(studentIdSourceLocation);
+}
+
+
+function LocateStudentIdsInTarget (){
+      var SPREADSHEET_ID = "ADD ID"
+      var SHEET_NAME = "Sheet1"
+      var studentId = "1234567"
+      var studentIdTargetLocation = searchForStudentId(SPREADSHEET_ID, SHEET_NAME, studentId)
+      Logger.log(studentIdTargetLocation)
+}

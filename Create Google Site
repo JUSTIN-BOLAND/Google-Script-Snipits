@@ -1,0 +1,9 @@
+function createSite(pageName){
+  var pageTitle = "My Portfolio"
+  var sourceSite = SitesApp.getSite("ilavietnam.edu.vn", "wwwww");  
+  var site = SitesApp.copySite("ilavietnam.edu.vn",
+                                 pageName,
+                                 pageTitle,
+                                "This is a new site I created!", sourceSite);
+                                                                                       
+     }

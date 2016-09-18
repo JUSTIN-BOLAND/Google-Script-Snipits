@@ -1,0 +1,43 @@
+dataArr = [];
+Arr = [];
+var SHEET_ID = "SOMEID"
+function mapper(str) {
+    var o = {};
+    strArr = str.split(":");
+    o[strArr[0].trim()] = strArr[1].trim();
+    return o;
+}
+$.getJSON(
+    "https://spreadsheets.google.com/feeds/list/" + SHEET_ID + "/od6/public/basic?alt=json",
+    function(data) {
+        getData(data)
+    });
+
+function getData(data) {
+    $.each(data.feed.entry, function(index, value) {
+        $.each(value.content, function(index, value) {
+            if (index === '$t') {
+                dataArr.push(value.split(', '));
+            }
+        });
+    });
+    $.each(dataArr, function(index, value) {
+        Arr.push(value.map(mapper));
+    })
+    makeTable(Arr);   
+  console.log(Arr)
+}
+
+function makeTable(Arr){
+  //Get all the key. 
+
+   $.each(Arr, function(index, value) {
+        console.log(value);
+        var tag = value[0].tag;
+        var book =value[2].book;
+        var summary =value[5].summary;
+     $('#cool').append('<tr><td>'+summary+'</td><td>'+book+'</td></tr>')
+     
+    })
+  
+}

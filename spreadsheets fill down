@@ -1,0 +1,18 @@
+function fillemptyCells (){
+  var column = 2;
+ var SPREADSHEET_ID = "1Lcpd-7ah1szKfRddgmj4E4u5d4FYDIpfUbhVwy_Sl-Y"
+  var ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  var sheet = ss.getSheetByName("Standards Checker")
+  //Get the first cell in the column
+  var lastrow = sheet.getLastRow()
+  for (var i =1; i<lastrow;i++){
+   var cell = sheet.getRange(i,column).getValues(); 
+   Logger.log(cell)
+   if (cell.toString() === ""){
+   //Get the value of the pervious cell. 
+    var previousCell = sheet.getRange(i-1,column).getValues(); 
+   // Put it into the current cell. 
+    var currentCell = sheet.getRange(i,column).setValue(previousCell); 
+   }
+   }
+}

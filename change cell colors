@@ -1,0 +1,23 @@
+function setCellColors() {
+//Get the sheet you want to work with. 
+var ss = SpreadsheetApp.getActiveSpreadsheet();
+var sheet = ss.getActiveSheet()
+    // determine how how big your data range will be
+var lastColumn = sheet.getLastColumn() + 1
+var lastRow = sheet.getLastRow() + 1
+    // iterate through the data. 
+for (var column = 1; column < lastColumn; column++) {
+    for (var row = 1; row < lastRow; row++) {
+        var cellget = sheet.getRange(row, column).getValue();
+        var cellset = sheet.getRange(row, column);
+        //Set the rules logic
+        if (cellget === "#N/A") {
+            //Set the cell background
+            cellset.setBackground("red");
+            cellset.setFontColor("white");
+
+
+        }
+    }
+}
+}

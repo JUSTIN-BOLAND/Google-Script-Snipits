@@ -1,0 +1,100 @@
+function convertDate() {
+  var column = 'K'
+  var sheetName = 'KET/PET Summary'
+  var list = ['A','B','C','D','E','F','G','H','I','J','K']
+  var rg = column + '2:' + column
+  var col = list.indexOf(column) +1
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(sheetName);
+  var range = sheet.getRange(rg).getValues()
+  var count = 2
+  for (var i in range){
+    var date = range[i][0]
+    var dateArr = date.split("/")
+    var dateRev = dateArr.reverse().join('-');
+    Logger.log(dateRev)
+    sheet.getRange(count, col).setValue(dateRev)
+    count++
+    }
+  }
+  
+  function convertDate2() {
+  var column = 'D'
+  var sheetName = 'sheet3'
+  var list = ['A','B','C','D','E','F']
+  var rg = column + '2:' + column
+  var col = list.indexOf(column) +1
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(sheetName);
+  var range = sheet.getRange(rg).getValues()
+  var count = 2
+  for (var i in range){
+    var date = range[i][0]
+    var dateArr = date.split(".")
+    var dateRev = dateArr.reverse().join('-');
+    Logger.log(dateRev)
+    sheet.getRange(count, col).setValue(dateRev)
+    count++
+    }
+  }
+  
+  function extractCenterToLeft(){
+    var column = 'G'
+  var sheetName = 'KET/PET Summary'
+  var list = ['A','B','C','D','E','F','G','H','I']
+  var rg = column + '2:' + column
+  var col = list.indexOf(column) +1
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(sheetName);
+  var range = sheet.getRange(rg).getValues()
+  var count = 2
+  for (var i in range){
+    var classCode = range[i][0]
+    var center = classCode.slice(0,classCode.indexOf("Y")).replace('H','')
+    Logger.log(center)
+    sheet.getRange(count, col-1).setValue('TC-HCMC'+center)
+    count++
+    }
+  
+  }
+  
+  
+    function hyperlinks(){
+    var column = 'A'
+  var sheetName = 'Sheet19'
+  var list = ['A','B','C','D','E','F','G','H','I']
+  var rg = column + '2:' + column
+  var col = list.indexOf(column) +1
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(sheetName);
+  var range = sheet.getRange(rg).getValues()
+  var count = 2
+  for (var i in range){
+    var item =  range[i]
+    Logger.log(item)
+//    var center = classCode.slice(0,classCode.indexOf("Y")).replace('H','')
+//    Logger.log(center)
+//    sheet.getRange(count, col-1).setValue('TC-HCMC'+center)
+//    count++
+    }
+  
+  }
+  
+  function fillemptyCells (){
+  var column = 1;
+  var SPREADSHEET_ID = "1i2jfEpv1WwjKzUwG5jgAvDqhUYM_cTRL-L9rDWxPj7o"
+  var ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  var sheet = ss.getSheetByName("Current Test Totals")
+  //Get the first cell in the column
+  var lastrow = sheet.getLastRow()
+  for (var i =2; i<lastrow;i++){
+   var cell = sheet.getRange(i,column).getValues(); 
+   Logger.log(cell)
+   if (cell.toString() === ""){
+   //Get the value of the pervious cell. 
+    var previousCell = sheet.getRange(i-1,column).getValues(); 
+   // Put it into the current cell. 
+    var currentCell = sheet.getRange(i,column).setValue(previousCell); 
+   }
+   }
+}

@@ -1,6 +1,6 @@
 function fillemptyCells (){
   var column = 2;
- var SPREADSHEET_ID = "1PIMtKuiA9hzxb-9GT0dE7Wvn-4pZC8nrOx_943dk8YQ"
+ var SPREADSHEET_ID = "SPEADSHEET_ID"
   var ss = SpreadsheetApp.openById(SPREADSHEET_ID);
   var sheet = ss.getSheetByName("Sheet1")
   //Get the first cell in the column

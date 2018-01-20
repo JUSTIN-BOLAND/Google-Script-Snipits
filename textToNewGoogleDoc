@@ -1,0 +1,32 @@
+function doGet(e) {
+  var html = e.parameter.html;
+  Logger.log(html)
+  var id = createNewDoc(html)
+  return ContentService.createTextOutput(id); 
+}
+
+
+function createNewDoc(html){
+
+  var title = 'Was created from a web page'
+  var content = html//'<!DOCTYPE html><html><body><b>Hello</b></body><html>'
+  
+  var folderId = 'FOLDER_ID'
+  // neither kind or mimeType properties seem to be necessary
+  // for Doc to be created, but are being included anyhow 
+  var resource = {
+    title: title,
+    parents: [
+      {
+        "id": folderId, 
+        "kind": "drive#fileLink"
+      }
+    ],
+    mimeType: 'application/vnd.google-apps.document', 
+  };
+  var blob = Utilities.newBlob("").setDataFromString(content,'UTF-8').setContentType("text/html")
+  var newfile = Drive.Files.insert(resource, blob, {"convert":"true"}).id
+  var openFile = DriveApp.getFileById(newfile)
+  openFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.EDIT);
+  return newfile;
+}

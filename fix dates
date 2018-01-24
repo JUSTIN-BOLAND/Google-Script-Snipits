@@ -1,0 +1,19 @@
+function convertDate() {
+  var column = 'G'
+  var sheetName = 'Sheet4'
+  var list = ['A','B','C','D','E','F','G']
+  var rg = column + '2:' + column
+  var col = list.indexOf(column) +1
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(sheetName);
+  var range = sheet.getRange(rg).getValues()
+  var count = 2
+  for (var i in range){
+    var date = range[i][0]
+    var dateArr = date.split("/")
+    var dateRev = dateArr.reverse().join('-');
+    Logger.log(dateRev)
+    sheet.getRange(count, col).setValue(dateRev)
+    count++
+    }
+  }

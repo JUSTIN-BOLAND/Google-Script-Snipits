@@ -1,0 +1,21 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+
+<script>
+  axios.get('https://www.instagram.com/explore/tags/robinhoodsbay').then((data)=>{
+   var idCodes = [];
+   var myData = data.data;
+   var dataStart = myData.indexOf('window._sharedData');
+  // remove all text from the front. 
+   var slicedData = myData.slice(dataStart);
+   var removeEnd = (slicedData.indexOf('</script')) -1;
+   var slicedDataTwo = slicedData.slice(0, removeEnd )
+   var result = JSON.parse(slicedDataTwo.replace('window._sharedData = ',''))
+   var postArray = result.entry_data.TagPage[0].graphql.hashtag.edge_hashtag_to_media.edges
+  postArray.forEach(item =>{
+   idCodes.push(item.node.shortcode)
+  })
+  console.log(idCodes)
+  }).catch(error => {
+    console.log(error)
+  }) 
+</script>
